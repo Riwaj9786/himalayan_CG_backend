@@ -40,7 +40,6 @@ class CareerApplyCreateAPIView(CreateAPIView):
     queryset = CareerApply.objects.all()
     serializer_class = CareerApplySerializer
 
-
     def perform_create(self, serializer):
         # Extract position ID from the URL parameter 'pk'
         position_id = self.kwargs['pk']
@@ -68,6 +67,6 @@ class CareerApplyListAPIView(ListAPIView):
 
 
 class CareerDeleteAPIView(DestroyAPIView):
-    queryset = Career.objects.all
+    queryset = Career.objects.all()
     serializer_class = CareerSerializer
     permission_classes = (IsAdminUser,)
