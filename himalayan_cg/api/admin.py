@@ -22,7 +22,13 @@ class OrganizationAdmin(admin.ModelAdmin):
         }),
     )
 
-admin.site.register(Blog)
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'category__category_name')
+    list_display_links = ('title', 'author', 'category__category_name')
+    list_filter = ('category', 'is_featured')
+    search_fields = ('title', 'author__name')
+
 admin.site.register(Initiatives)
 admin.site.register(FAQ)
 
