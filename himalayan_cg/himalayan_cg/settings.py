@@ -37,7 +37,7 @@ LOCAL_APPS = [
     'api',
     'UserProfile',
     'career',
-    # 'contact',
+    'proposal',
 ]
 
 THIRD_PARTY_APPS = [
@@ -45,9 +45,11 @@ THIRD_PARTY_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_filters',
+    'jazzmin',
 ]
 
 INSTALLED_APPS = [
+    *THIRD_PARTY_APPS,
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,7 +57,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     *LOCAL_APPS,
-    *THIRD_PARTY_APPS,
 ]
 
 MIDDLEWARE = [

@@ -53,6 +53,7 @@ class OrganizationDetail(models.Model):
     tagline = models.TextField(null=True, blank=True)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
+    logo = models.FileField(upload_to='organization/logo/', null=True, blank=True)
     location = models.TextField()
     facebook = models.URLField(null=True, blank=True)      
     instagram = models.URLField(null=True, blank=True)      

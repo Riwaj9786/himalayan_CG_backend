@@ -6,7 +6,7 @@ from django.utils.html import format_html
 @admin.register(Profile)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('name', 'email')
-    list_display_links = ('name',)
+    list_display_links = ('name', 'email')
     search_fields = ('name', 'email',)
 
     fieldsets = (
