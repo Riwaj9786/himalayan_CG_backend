@@ -12,6 +12,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic Information', {
             'fields': ('name', 'image', 'email', 'phone', 'team',),
+            'classes': ('collapse',),
         }),
         ('Social Media Handles', {
             'fields': ('facebook', 'instagram', 'twitter'),
@@ -43,4 +44,11 @@ class BoardOfDirectorsAdmin(admin.ModelAdmin):
     
     display_image.short_description = ''
 
-admin.site.register(Team)
+
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
+    list_display = ('team_name',)
+    fieldsets = (
+        ('Team Name', {'fields': ('team_name',)}),
+        ('Description', {'fields': ('description',)})
+    )

@@ -36,7 +36,7 @@ class Blog(BaseBlogModel):
     is_featured = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.title}-{self.published_at}"
+        return f"{self.title}"
 
 
 ########## OrganizationInformation ############
@@ -94,13 +94,18 @@ class Story(BaseBlogModel):
     sub_title = models.CharField(max_length=255)
     created_by = models.ForeignKey('UserProfile.Profile', on_delete=models.DO_NOTHING, related_name='story_author', null=True)
 
-    def __str__(self):
-        return f"{self.title}-{self.sub_title}"
+    class Meta:
+        verbose_name_plural = "Stories"
+
 
 # FAQs
 class FAQ(models.Model):
     question = RichTextUploadingField()
     answer = RichTextUploadingField()
+
+    class Meta:
+        verbose_name = "FAQ"
+        verbose_name_plural = "FAQs"
 
     def __str__(self):
         return f"{self.id}-{self.question}"

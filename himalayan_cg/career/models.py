@@ -11,13 +11,6 @@ class BaseCareerModel(models.Model):
 
     class Meta:
         abstract = True  
-    
-    # def save(self, *args, **kwargs):
-    #     if not self.deadline:
-    #         self.deadline = timezone.now()+timedelta(days=7)
-
-    #     super().save(*args, **kwargs)
-
 
 ######### Career #########
 # 1. Position name
@@ -27,33 +20,43 @@ class BaseCareerModel(models.Model):
 # 5. salary
 # 6. is_active
 
+class PositionType(models.Model):
+    position_type = models.CharField(max_length=75, help_text='E.g. Internship, Entry Level, Mid Level, Senior Level')
+
+    def __str__(self):
+        return self.position_type
+    
+
+class JobType(models.Model):
+    job_type = models.CharField(max_length=125, help_text='(E.g. Full Time, Part Time)')
+
+    def __str__(self):
+        return self.job_type
+
+
+class JobLocation(models.Model):
+    job_location = models.CharField(max_length=125, help_text='(E.g. On-Site, Remote, Hybrid)')
+
+    def __str__(self):
+        return self.job_location
+
+
 class Career(BaseCareerModel):
-    position_type_choices = [
-        ('Internship', 'Internship'),
-        ('Entry Level', 'Entry Level'),
-        ('Mid Level', 'Mid Level'),
-        ('Senior Level', 'Senior Level'),
-    ]
-    job_type_choices = [
-        ('Full Time', 'Full Time'),
-        ('Part Time', 'Part Time'),
-    ]
-    job_location_choices = [
-        ('Remote', 'Remote'),
-        ('Hybrid', 'Hybrid'),
-        ('On-Site', 'On-Site'),
-    ]
     position_name = models.CharField(max_length=255)
     description = RichTextUploadingField()
     salary = models.DecimalField(max_digits=10, decimal_places=2)
     _is_active = models.BooleanField(default=True)
-    position_type = models.CharField(max_length=40, choices=position_type_choices, null=True, blank=True)
-    job_type = models.CharField(max_length=40, choices=job_type_choices, null=True, blank=True)
-    job_location = models.CharField(max_length=40, choices=job_location_choices, null=True, blank=True)
+    position_type = models.ForeignKey(PositionType, on_delete=models.DO_NOTHING, name='position_type', null=True, blank=True)
+    job_type = models.ForeignKey(JobType, on_delete=models.DO_NOTHING, name='job_type', null=True, blank=True)
+    job_location = models.ForeignKey(JobLocation, on_delete=models.DO_NOTHING, name='job_location', null=True, blank=True)
 
     def __str__(self):
         return f"{self.position_name}"
     
+    class Meta:
+        verbose_name = "Vacancy"
+        verbose_name_plural = "Vacancies"
+
     @property
     def is_active(self):
         return self._is_active and timezone.now() <= self.deadline
@@ -71,9 +74,18 @@ def upload_to_cv(instance, filename):
 
 
 class CareerApply(models.Model):
+    gender_choices = [
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Other', 'Other'),
+        ('Prefer Not To Say', 'Prefer Not To Say'),
+    ]
+
     first_name = models.CharField(max_length=55)
     last_name = models.CharField(max_length=115)
     email = models.EmailField(null=False, blank=False)
+    gender = models.CharField(max_length=55, choices=gender_choices, null=True)
+    date_of_birth = models.DateField(null=True)
     phone_number = models.BigIntegerField()
     position = models.ForeignKey(Career, on_delete=models.DO_NOTHING, related_name='apply_position')
     cv = models.FileField(upload_to=upload_to_cv)
@@ -82,3 +94,8 @@ class CareerApply(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}: {self.position}"
+
+    
+    class Meta:
+        verbose_name = "Application"
+        verbose_name_plural = "Applications"
