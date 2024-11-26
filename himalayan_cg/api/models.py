@@ -30,9 +30,20 @@ class BaseBlogModel(models.Model):
     class Meta:
         abstract = True
 
+    
+class Category(models.Model):
+    category_name = models.CharField(max_length=30)
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return self.category_name
+
 
 class Blog(BaseBlogModel):
     author = models.ForeignKey('UserProfile.Profile', on_delete=models.DO_NOTHING, related_name='blog_author')
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, related_name='blog_category', null=True)
     is_featured = models.BooleanField(default=False)
 
     def __str__(self):
@@ -67,16 +78,6 @@ class OrganizationDetail(models.Model):
         return self.name
 
 # Initiatives
-class Category(models.Model):
-    category_name = models.CharField(max_length=30)
-
-    class Meta:
-        verbose_name_plural = "Categories"
-
-    def __str__(self):
-        return self.category_name
-    
-
 class Initiatives(BaseBlogModel):
     description = RichTextUploadingField(blank=True)
     author = models.ForeignKey('UserProfile.Profile', on_delete=models.DO_NOTHING, related_name='initiative_author', null=True)
