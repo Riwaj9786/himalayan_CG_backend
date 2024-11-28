@@ -20,26 +20,27 @@ class JobLocationSerializer(serializers.ModelSerializer):
         fields = ('id', 'job_location')
         read_only_fields = ('id',)
 
-class CareerSerializer(serializers.ModelSerializer):
+
+class CareerListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Career
+        fields = ('position_name', 'job_type', 'deadline')
+
+
+class CareerDetailSerializer(serializers.ModelSerializer):
     job_location = JobLocationSerializer(read_only=True)
     job_type = JobTypeSerializer(read_only=True)
     position_type = PositionTypeSerializer(read_only=True)
     class Meta:
         model = Career
-        fields = ('id', 'position_name', 'description', 'salary', '_is_active', 'position_type', 'job_type', 'job_location', 'deadline')
-        read_only_fields = ('created_at',)
+        fields = ('id', 'position_name', 'description', 'salary', '_is_active', 'position_type', 'job_type', 'job_location', 'opening_date', 'deadline')
+        read_only_fields = ('opening_date', 'deadline')
 
 
 class CareerApplySerializer(serializers.ModelSerializer):
-    position = CareerSerializer(read_only = True)
+    position = CareerDetailSerializer(read_only = True)
     
     class Meta:
         model = CareerApply
-        fields = ('first_name', 'last_name', 'email', 'phone_number', 'cv', 'accepted', 'position', 'submitted_at',)
+        fields = ('first_name', 'last_name', 'email', 'phone_number', 'cv', 'position', 'submitted_at',)
         read_only_fields = ('submitted_at', 'position',)
-
-    def validate(self, data):
-        if not data.get('accepted'):
-            raise serializers.ValidationError('You must accept the Terms to continue!')
-        
-        return data

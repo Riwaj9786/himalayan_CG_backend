@@ -2,11 +2,13 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from ckeditor_uploader.fields import RichTextUploadingField
+import uuid
 
 # Create your models here.
 class BaseCareerModel(models.Model):
-    created_at = models.DateTimeField(default=timezone.now())
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    opening_date = models.DateTimeField(default=timezone.now())
     deadline = models.DateTimeField(default=(timezone.now()+timedelta(days=7))) 
 
     class Meta:
@@ -42,20 +44,22 @@ class JobLocation(models.Model):
 
 
 class Career(BaseCareerModel):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4)
     position_name = models.CharField(max_length=255)
-    description = RichTextUploadingField()
-    salary = models.DecimalField(max_digits=10, decimal_places=2)
+    job_description = RichTextUploadingField()
+    job_requirements = RichTextUploadingField()
+    salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
     _is_active = models.BooleanField(default=True)
-    position_type = models.ForeignKey(PositionType, on_delete=models.DO_NOTHING, name='position_type', null=True, blank=True)
-    job_type = models.ForeignKey(JobType, on_delete=models.DO_NOTHING, name='job_type', null=True, blank=True)
-    job_location = models.ForeignKey(JobLocation, on_delete=models.DO_NOTHING, name='job_location', null=True, blank=True)
+    position_type = models.ForeignKey(PositionType, on_delete=models.PROTECT, name='position_type')
+    job_type = models.ForeignKey(JobType, on_delete=models.PROTECT, name='job_type')
+    job_location = models.ForeignKey(JobLocation, on_delete=models.PROTECT, name='job_location')
 
     def __str__(self):
         return f"{self.position_name}"
     
     class Meta:
         verbose_name = "Vacancy"
-        verbose_name_plural = "Vacancies"
+        verbose_name_plural = "1. Vacancies"
 
     @property
     def is_active(self):
@@ -87,9 +91,8 @@ class CareerApply(models.Model):
     gender = models.CharField(max_length=55, choices=gender_choices, null=True)
     date_of_birth = models.DateField(null=True)
     phone_number = models.BigIntegerField()
-    position = models.ForeignKey(Career, on_delete=models.DO_NOTHING, related_name='apply_position')
+    position = models.ForeignKey(Career, on_delete=models.PROTECT, related_name='apply_position')
     cv = models.FileField(upload_to=upload_to_cv)
-    accepted = models.BooleanField(default= False)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -98,4 +101,4 @@ class CareerApply(models.Model):
     
     class Meta:
         verbose_name = "Application"
-        verbose_name_plural = "Applications"
+        verbose_name_plural = "2. Applications"
