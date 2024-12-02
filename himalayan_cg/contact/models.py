@@ -11,7 +11,6 @@ class Contact(models.Model):
     phone_number = models.CharField(max_length=20)
     subject = models.CharField(max_length=555)
     message = RichTextUploadingField()
-    is_accepted = models.BooleanField(default=False)
     submitted_at = models.DateTimeField(default=datetime.now())
 
     class Meta:

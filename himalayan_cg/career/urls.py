@@ -3,6 +3,6 @@ from career.views import CareerListAPIView, CareerDetailAPIView, CareerApplyCrea
 
 urlpatterns = [
     path('openings/', CareerListAPIView.as_view(), name='career-list'),
-    path('<str:uuid>/', CareerDetailAPIView.as_view(), name='career-detail'),
-    path('apply/<str:uuid>/', CareerApplyCreateAPIView.as_view(), name='career-apply'),
+    path('openings/<str:pk>/', CareerDetailAPIView.as_view(), name='career-detail'),
+    path('apply/<str:pk>/', CareerApplyCreateAPIView.as_view(), name='career-apply'),
 ]

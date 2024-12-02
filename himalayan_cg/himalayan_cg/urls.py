@@ -22,10 +22,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include('api.urls')),
     path('api/v1/accounts/', include('UserProfile.urls')),
     path('api/v1/careers/', include('career.urls')),
     path('api/v1/contacts/', include('contact.urls')),
     path('api/v1/proposals/', include('proposal.urls')),
+    path('api/v1/faq/', include('faq.urls')),
+    path('api/v1/website/', include('website.urls')),
+    path('api/v1/blog/', include('blog.urls')),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

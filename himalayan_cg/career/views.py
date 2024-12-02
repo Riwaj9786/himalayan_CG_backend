@@ -9,7 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.exceptions import ValidationError
 
-# Create your views here.
+
 class CareerListAPIView(ListAPIView):
     queryset = Career.objects.all()
     serializer_class = CareerListSerializer
@@ -42,18 +42,14 @@ class CareerApplyCreateAPIView(CreateAPIView):
     serializer_class = CareerApplySerializer
 
     def perform_create(self, serializer):
-        # Extract position ID from the URL parameter 'pk'
         position_id = self.kwargs['pk']
         
         try:
-            position = Career.objects.get(id=position_id)
+            position = Career.objects.get(uuid=position_id)
         except Career.DoesNotExist:
             raise ValidationError({'error': 'The career position does not exist!'})
 
-        # Check if the position is still active
         if not position.is_active:
             raise ValidationError({'error': 'The Position you are applying for is not active anymore!'})
 
-        # Save the application if the position is active
         serializer.save(position=position)
-        

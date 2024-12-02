@@ -22,3 +22,8 @@ class CareerApplicationAdmin(admin.ModelAdmin):
     def get_position(self, obj):
         return obj.position.position_name
     get_position.short_description = 'Position'
+
+
+# admin.site.register(PositionType)
+# admin.site.register(JobType)
+# admin.site.register(JobLocation)

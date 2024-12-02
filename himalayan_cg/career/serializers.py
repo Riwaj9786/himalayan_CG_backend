@@ -24,7 +24,7 @@ class JobLocationSerializer(serializers.ModelSerializer):
 class CareerListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Career
-        fields = ('position_name', 'job_type', 'deadline')
+        fields = ('uuid', 'position_name', 'job_type', 'deadline')
 
 
 class CareerDetailSerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class CareerDetailSerializer(serializers.ModelSerializer):
     position_type = PositionTypeSerializer(read_only=True)
     class Meta:
         model = Career
-        fields = ('id', 'position_name', 'description', 'salary', '_is_active', 'position_type', 'job_type', 'job_location', 'opening_date', 'deadline')
+        fields = ('position_name', 'job_description', 'job_requirements', 'salary', '_is_active', 'position_type', 'job_type', 'job_location', 'opening_date', 'deadline')
         read_only_fields = ('opening_date', 'deadline')
 
 

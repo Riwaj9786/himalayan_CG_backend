@@ -4,7 +4,6 @@ from datetime import timedelta
 from ckeditor_uploader.fields import RichTextUploadingField
 import uuid
 
-# Create your models here.
 class BaseCareerModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -72,7 +71,6 @@ class Career(BaseCareerModel):
 
 
 def upload_to_cv(instance, filename):
-    # Generate path dynamically based on the `position_name` of the related `Career` instance
     position_name = instance.position.position_name if instance.position else 'unknown_position'
     return f'careers/cv/{position_name}/{filename}'
 
@@ -88,8 +86,8 @@ class CareerApply(models.Model):
     first_name = models.CharField(max_length=55)
     last_name = models.CharField(max_length=115)
     email = models.EmailField(null=False, blank=False)
-    gender = models.CharField(max_length=55, choices=gender_choices, null=True)
-    date_of_birth = models.DateField(null=True)
+    gender = models.CharField(max_length=55, choices=gender_choices)
+    date_of_birth = models.DateField(null=True, blank=True)
     phone_number = models.BigIntegerField()
     position = models.ForeignKey(Career, on_delete=models.PROTECT, related_name='apply_position')
     cv = models.FileField(upload_to=upload_to_cv)
