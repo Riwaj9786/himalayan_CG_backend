@@ -9,15 +9,15 @@ class OrganizationDetailListAPIView(ListAPIView):
 
 
 class WhatIsHCGListAPIView(ListAPIView):
-    queryset = WhatIsHCG.objects.first()
+    queryset = WhatIsHCG.objects.all()
     serializer_class = WhatIsHCGSerializer
 
 
 class PioneeringProjectsInfoListAPIView(ListAPIView):
-    queryset = PioneeringProjectsInfo.objects.first()
+    queryset = PioneeringProjectsInfo.objects.all()
     serializer_class = PioneeringProjectsInfoSerializer
 
 
 class ImportantGoalsListAPIView(ListAPIView):
-    queryset = ImportantGoals.objects.first()
+    queryset = ImportantGoals.objects.all()
     serializer_class = ImportantGoalsSerializer
