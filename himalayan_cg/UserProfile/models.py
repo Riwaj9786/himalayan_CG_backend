@@ -18,6 +18,9 @@ class Team(models.Model):
     )
     description = models.TextField(null=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = "3. Teams"
+
     def __str__(self):
         return self.team_name
 
@@ -30,14 +33,14 @@ def file_to_upload_profile_picture(instance, filename):
 
     
 class Position(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     rank = models.IntegerField(unique=True, help_text="Lower the Rank, the higher the position is!")
     position = models.CharField(max_length=75)
 
     class Meta:
         ordering = ('rank',)
         verbose_name = "Position"
-        verbose_name_plural = "Positions"
+        verbose_name_plural = "2. Positions"
 
     def __str__(self):
         return f"{self.position}"
@@ -62,7 +65,7 @@ class Profile(BaseModel):
 
     class Meta:
         verbose_name = "User Profile"
-        verbose_name_plural = "User Profiles"
+        verbose_name_plural = "1. User Profiles"
 
     def __str__(self):
         return f"{self.name}"

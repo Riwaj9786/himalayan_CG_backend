@@ -1,6 +1,5 @@
 from django.contrib import admin
-from UserProfile.models import Profile, Team
-from django.utils.html import format_html
+from UserProfile.models import Profile, Team, Position
 
 # Register your models here.
 @admin.register(Profile)
@@ -11,7 +10,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name', 'image', 'email', 'phone', 'team',),
+            'fields': ('name', 'image', 'email', 'phone', 'team', 'position'),
             'classes': ('collapse',),
         }),
         ('Social Media Handles', {
@@ -20,6 +19,7 @@ class UserProfileAdmin(admin.ModelAdmin):
         }),
     )
 
+admin.site.register(Position)
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):

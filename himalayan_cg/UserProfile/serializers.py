@@ -12,11 +12,12 @@ class ProfileSerializer(serializers.ModelSerializer):
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
-        fields = ('uuid', 'rank', 'position')
-        read_only_fields = ('uuid',)
+        fields = ('rank', 'position')
 
 
 class MemberSerializer(serializers.ModelSerializer):
+    position = PositionSerializer(read_only=True) 
+
     class Meta:
         model = Profile
         fields = ('name', 'image', 'position')
